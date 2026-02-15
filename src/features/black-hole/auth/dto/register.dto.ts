@@ -8,7 +8,7 @@ export class RegisterDto {
     @IsEnum(Roles)
     role: Roles;
 
-    @ApiProperty({maxLength: 32, example: 'otash007'})
+    @ApiProperty({maxLength: 32})
     @IsString()
     @MaxLength(32)
     login: string;
