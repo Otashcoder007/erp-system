@@ -1,10 +1,10 @@
 import {Column, Entity, Index, OneToMany} from 'typeorm';
 import {Group} from './group.entity';
 import {Submission} from './submission.entity';
-import {Roles} from '../../../core/enums/roles.enum';
-import {Gender} from '../../../core/enums/gender.enum';
+import {Roles} from '../../core/enums/roles.enum';
+import {Gender} from '../../core/enums/gender.enum';
 import {StudentsGroups} from './students-group.entity';
-import {BaseModel} from '../../../core/base-model';
+import {BaseModel} from '../../core/base-model';
 
 @Entity('users')
 export class User extends BaseModel {

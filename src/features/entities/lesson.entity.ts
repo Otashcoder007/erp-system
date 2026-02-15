@@ -2,7 +2,7 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
 import type {Group} from './group.entity';
 import {Task} from './task.entity';
 import {FileEntity} from './file.entity';
-import {BaseModel} from '../../../core/base-model';
+import {BaseModel} from '../../core/base-model';
 
 @Entity('lessons')
 export class Lesson extends BaseModel {

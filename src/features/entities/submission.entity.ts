@@ -2,8 +2,8 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
 import type {User} from './user.entity';
 import type {Task} from './task.entity';
 import type {FileEntity} from './file.entity';
-import {SubmissionStatus} from '../../../core/enums/submission-status.enum';
-import {BaseModel} from '../../../core/base-model';
+import {SubmissionStatus} from '../../core/enums/submission-status.enum';
+import {BaseModel} from '../../core/base-model';
 
 @Entity('submissions')
 export class Submission extends BaseModel {

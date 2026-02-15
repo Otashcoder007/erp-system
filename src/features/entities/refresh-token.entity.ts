@@ -1,6 +1,6 @@
 import {Column, Entity, Index, JoinColumn, ManyToOne} from 'typeorm';
 import {User} from './user.entity';
-import {BaseModel} from '../../../core/base-model';
+import {BaseModel} from '../../core/base-model';
 
 @Entity('refresh_tokens')
 @Index(['userId'], {unique: true})

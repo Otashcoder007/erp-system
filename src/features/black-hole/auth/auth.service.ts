@@ -5,8 +5,8 @@ import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 
 import {LoginDto} from './dto/login.dto';
-import {User} from '../entities/user.entity';
-import {RefreshToken} from '../entities/refresh-token.entity';
+import {User} from '../../entities/user.entity';
+import {RefreshToken} from '../../entities/refresh-token.entity';
 import {RegisterDto} from './dto/register.dto';
 
 type AccessPayload = {sub: number; login: string; role: string};
