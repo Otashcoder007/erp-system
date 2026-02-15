@@ -16,8 +16,8 @@ export class Lesson extends BaseModel {
     @Column({length: 128})
     title: string;
 
-    @Column('date')
-    startDate: string;
+    @Column('timestamp')
+    startDate: Date;
 
     @OneToMany(() => Task, t => t.lesson)
     tasks: Task[];
