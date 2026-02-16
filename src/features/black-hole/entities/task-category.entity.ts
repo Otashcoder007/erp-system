@@ -1,6 +1,6 @@
 import {Column, Entity, Index, OneToMany} from 'typeorm';
 import type {TaskTemplate} from './task-template.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('taskCategories')
 export class TaskCategory extends BaseModel {

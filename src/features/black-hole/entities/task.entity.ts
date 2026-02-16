@@ -2,7 +2,7 @@ import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
 import type {Lesson} from './lesson.entity';
 import type {TaskTemplate} from './task-template.entity';
 import type {Submission} from './submission.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('tasks')
 export class Task extends BaseModel {

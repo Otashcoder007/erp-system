@@ -2,7 +2,7 @@ import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
 import type {User} from './user.entity';
 import type {Lesson} from './lesson.entity';
 import type {Submission} from './submission.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('files')
 export class FileEntity extends BaseModel {

@@ -1,6 +1,6 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {Lesson} from '../../entities/lesson.entity';
+import {Lesson} from '../entities/lesson.entity';
 import {LessonsController} from './lessons.controller';
 import {LessonsService} from './lessons.service';
 

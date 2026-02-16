@@ -2,10 +2,10 @@ import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 
-import {Group} from '../../entities/group.entity';
+import {Group} from '../entities/group.entity';
 import {CreateGroupDto} from './dto/create-group.dto';
 import {AddStudentToGroupDto} from './dto/add-student.dto';
-import {StudentsGroups} from '../../entities/students-group.entity';
+import {StudentsGroups} from '../entities/students-group.entity';
 
 @Injectable()
 export class GroupsService {

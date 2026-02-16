@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import type {TaskCategory} from './task-category.entity';
 import type {Task} from './task.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('taskTemplates')
 export class TaskTemplate extends BaseModel {

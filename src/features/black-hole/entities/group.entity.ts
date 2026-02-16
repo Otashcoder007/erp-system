@@ -1,9 +1,9 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
 import type {User} from './user.entity';
 import type {Lesson} from './lesson.entity';
-import {GroupStatus} from '../../core/enums/group-status.enum';
+import {GroupStatus} from '../../../core/enums/group-status.enum';
 import {StudentsGroups} from './students-group.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('groups')
 export class Group extends BaseModel {

@@ -1,7 +1,7 @@
 import {Column, Entity, Index, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
 import type {User} from './user.entity';
 import type {Group} from './group.entity';
-import {BaseModel} from '../../core/base-model';
+import {BaseModel} from '../../../core/base-model';
 
 @Entity('students_groups')
 @Index(['studentId', 'groupId'], {unique: true})
