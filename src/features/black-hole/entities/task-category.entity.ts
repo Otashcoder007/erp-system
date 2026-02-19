@@ -1,13 +1,13 @@
-import {Column, Entity, Index, OneToMany} from 'typeorm';
-import type {TaskTemplate} from './task-template.entity';
-import {BaseModel} from '../../../core/base-model';
+import {Column, Entity, Index, OneToMany} from "typeorm";
+import type {TaskTemplate} from "./task-template.entity";
+import {BaseModel} from "../../../core/base-model";
 
-@Entity('taskCategories')
+@Entity("taskCategories")
 export class TaskCategory extends BaseModel {
-    @Index({unique: true})
-    @Column({length: 128, unique: true})
-    title: string;
+  @Index({unique: true})
+  @Column({length: 128, unique: true})
+  title: string;
 
-    @OneToMany('TaskTemplate', 'category')
-    templates: TaskTemplate[];
+  @OneToMany("TaskTemplate", "category")
+  templates: TaskTemplate[];
 }

@@ -1,54 +1,54 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {Task} from '../entities/task.entity';
-import {CreateTaskDto} from './dto/create-task.dto';
-import {UpdateTaskDto} from './dto/update-task.dto';
+import {Injectable, NotFoundException} from "@nestjs/common";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {Task} from "../entities/task.entity";
+import {CreateTaskDto} from "./dto/create-task.dto";
+import {UpdateTaskDto} from "./dto/update-task.dto";
 
 @Injectable()
 export class TasksService {
-    constructor(
-        @InjectRepository(Task)
-        private readonly tasksRepo: Repository<Task>,
-    ) {}
+  constructor(
+    @InjectRepository(Task)
+    private readonly tasksRepo: Repository<Task>
+  ) {}
 
-    create(dto: CreateTaskDto) {
-        return this.tasksRepo.save(this.tasksRepo.create(dto));
-    }
+  create(dto: CreateTaskDto) {
+    return this.tasksRepo.save(this.tasksRepo.create(dto));
+  }
 
-    async findAll() {
-        return this.tasksRepo.createQueryBuilder('task').leftJoinAndSelect('task.lesson', 'lesson').leftJoinAndSelect('task.template', 'template').leftJoinAndSelect('template.category', 'category').orderBy('task.id', 'DESC').getMany(); // ✅ returns Task[]
-    }
+  async findAll() {
+    return this.tasksRepo.createQueryBuilder("task").leftJoinAndSelect("task.lesson", "lesson").leftJoinAndSelect("task.template", "template").leftJoinAndSelect("template.category", "category").orderBy("task.id", "DESC").getMany(); // ✅ returns Task[]
+  }
 
-    async findOne(id: number) {
-        const task = await this.tasksRepo.findOne({
-            where: {id},
-            relations: {
-                lesson: true,
-                template: {category: true},
-                submissions: true,
-            },
-        });
+  async findOne(id: number) {
+    const task = await this.tasksRepo.findOne({
+      where: {id},
+      relations: {
+        lesson: true,
+        template: {category: true},
+        submissions: true,
+      },
+    });
 
-        if (!task) throw new NotFoundException('Task not found');
+    if (!task) throw new NotFoundException("Task not found");
 
-        return task;
-    }
+    return task;
+  }
 
-    async update(id: number, dto: UpdateTaskDto) {
-        const task = await this.findOne(id);
+  async update(id: number, dto: UpdateTaskDto) {
+    const task = await this.findOne(id);
 
-        if (dto.templateId !== undefined) task.templateId = dto.templateId;
-        if (dto.order !== undefined) task.order = dto.order ?? null;
+    if (dto.templateId !== undefined) task.templateId = dto.templateId;
+    if (dto.order !== undefined) task.order = dto.order ?? null;
 
-        return this.tasksRepo.save(task);
-    }
+    return this.tasksRepo.save(task);
+  }
 
-    async remove(id: number) {
-        const res = await this.tasksRepo.delete({id});
+  async remove(id: number) {
+    const res = await this.tasksRepo.delete({id});
 
-        if (!res.affected) throw new NotFoundException('Task not found');
+    if (!res.affected) throw new NotFoundException("Task not found");
 
-        return {ok: true};
-    }
+    return {ok: true};
+  }
 }

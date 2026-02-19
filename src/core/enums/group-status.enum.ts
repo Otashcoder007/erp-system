@@ -1,6 +1,6 @@
 export enum GroupStatus {
-    pending = 'pending',
-    active = 'active',
-    finished = 'finished',
-    canceled = 'canceled',
+  pending = "pending",
+  active = "active",
+  finished = "finished",
+  canceled = "canceled",
 }

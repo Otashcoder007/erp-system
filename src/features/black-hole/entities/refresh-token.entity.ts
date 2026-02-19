@@ -1,20 +1,20 @@
-import {Column, Entity, Index, JoinColumn, ManyToOne} from 'typeorm';
-import {User} from './user.entity';
-import {BaseModel} from '../../../core/base-model';
+import {Column, Entity, Index, JoinColumn, ManyToOne} from "typeorm";
+import {User} from "./user.entity";
+import {BaseModel} from "../../../core/base-model";
 
-@Entity('refresh_tokens')
-@Index(['userId'], {unique: true})
+@Entity("refresh_tokens")
+@Index(["userId"], {unique: true})
 export class RefreshToken extends BaseModel {
-    @Column()
-    userId: number;
+  @Column()
+  userId: number;
 
-    @ManyToOne(() => User, {onDelete: 'CASCADE'})
-    @JoinColumn({name: 'userId'})
-    user: User;
+  @ManyToOne(() => User, {onDelete: "CASCADE"})
+  @JoinColumn({name: "userId"})
+  user: User;
 
-    @Column({length: 256})
-    tokenHash: string;
+  @Column({length: 256})
+  tokenHash: string;
 
-    @Column('timestamp')
-    expiresAt: Date;
+  @Column("timestamp")
+  expiresAt: Date;
 }

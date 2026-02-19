@@ -1,95 +1,95 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
+import {BadRequestException, Injectable, NotFoundException} from "@nestjs/common";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
 
-import {TaskCategory} from '../entities/task-category.entity';
-import {TaskTemplate} from '../entities/task-template.entity';
-import {CreateTaskCategoryDto} from './dto/create-task-category.dto';
-import {CreateTaskTemplateDto} from './dto/create-task-template.dto';
-import {UpdateTaskTemplateDto} from './dto/update-task-template.dto';
+import {TaskCategory} from "../entities/task-category.entity";
+import {TaskTemplate} from "../entities/task-template.entity";
+import {CreateTaskCategoryDto} from "./dto/create-task-category.dto";
+import {CreateTaskTemplateDto} from "./dto/create-task-template.dto";
+import {UpdateTaskTemplateDto} from "./dto/update-task-template.dto";
 
 @Injectable()
 export class TemplatesService {
-    constructor(
-        @InjectRepository(TaskCategory)
-        private readonly catRepo: Repository<TaskCategory>,
+  constructor(
+    @InjectRepository(TaskCategory)
+    private readonly catRepo: Repository<TaskCategory>,
 
-        @InjectRepository(TaskTemplate)
-        private readonly tplRepo: Repository<TaskTemplate>,
-    ) {}
+    @InjectRepository(TaskTemplate)
+    private readonly tplRepo: Repository<TaskTemplate>
+  ) {}
 
-    async createCategory(dto: CreateTaskCategoryDto) {
-        const exists = await this.catRepo.findOne({
-            where: {title: dto.title},
-        });
+  async createCategory(dto: CreateTaskCategoryDto) {
+    const exists = await this.catRepo.findOne({
+      where: {title: dto.title},
+    });
 
-        if (exists) {
-            throw new BadRequestException('Category title already exists');
-        }
-
-        return this.catRepo.save(this.catRepo.create(dto));
+    if (exists) {
+      throw new BadRequestException("Category title already exists");
     }
 
-    async listCategories(q?: string) {
-        const qb = this.catRepo.createQueryBuilder('c').leftJoinAndSelect('c.templates', 'templates').orderBy('c.id', 'DESC');
+    return this.catRepo.save(this.catRepo.create(dto));
+  }
 
-        if (q) {
-            qb.andWhere('LOWER(c.title) LIKE LOWER(:q)', {
-                q: `%${q}%`,
-            });
-        }
+  async listCategories(q?: string) {
+    const qb = this.catRepo.createQueryBuilder("c").leftJoinAndSelect("c.templates", "templates").orderBy("c.id", "DESC");
 
-        return qb.getMany();
+    if (q) {
+      qb.andWhere("LOWER(c.title) LIKE LOWER(:q)", {
+        q: `%${q}%`,
+      });
     }
 
-    createTemplate(dto: CreateTaskTemplateDto) {
-        return this.tplRepo.save(
-            this.tplRepo.create({
-                ...dto,
-                description: dto.description ?? null,
-            }),
-        );
+    return qb.getMany();
+  }
+
+  createTemplate(dto: CreateTaskTemplateDto) {
+    return this.tplRepo.save(
+      this.tplRepo.create({
+        ...dto,
+        description: dto.description ?? null,
+      })
+    );
+  }
+
+  async listTemplates(q?: string) {
+    const qb = this.tplRepo.createQueryBuilder("t").leftJoinAndSelect("t.category", "category").orderBy("t.id", "DESC");
+
+    if (q) {
+      qb.andWhere("LOWER(t.title) LIKE LOWER(:q)", {
+        q: `%${q}%`,
+      });
     }
 
-    async listTemplates(q?: string) {
-        const qb = this.tplRepo.createQueryBuilder('t').leftJoinAndSelect('t.category', 'category').orderBy('t.id', 'DESC');
+    return qb.getMany();
+  }
 
-        if (q) {
-            qb.andWhere('LOWER(t.title) LIKE LOWER(:q)', {
-                q: `%${q}%`,
-            });
-        }
+  async getTemplate(id: number) {
+    const tpl = await this.tplRepo.findOne({
+      where: {id},
+      relations: {category: true},
+    });
 
-        return qb.getMany();
-    }
+    if (!tpl) throw new NotFoundException("Template not found");
 
-    async getTemplate(id: number) {
-        const tpl = await this.tplRepo.findOne({
-            where: {id},
-            relations: {category: true},
-        });
+    return tpl;
+  }
 
-        if (!tpl) throw new NotFoundException('Template not found');
+  async updateTemplate(id: number, dto: UpdateTaskTemplateDto) {
+    const tpl = await this.getTemplate(id);
 
-        return tpl;
-    }
+    if (dto.categoryId !== undefined) tpl.categoryId = dto.categoryId;
+    if (dto.title !== undefined) tpl.title = dto.title;
+    if (dto.description !== undefined) tpl.description = dto.description ?? null;
+    if (dto.content !== undefined) tpl.content = dto.content;
 
-    async updateTemplate(id: number, dto: UpdateTaskTemplateDto) {
-        const tpl = await this.getTemplate(id);
+    return this.tplRepo.save(tpl);
+  }
 
-        if (dto.categoryId !== undefined) tpl.categoryId = dto.categoryId;
-        if (dto.title !== undefined) tpl.title = dto.title;
-        if (dto.description !== undefined) tpl.description = dto.description ?? null;
-        if (dto.content !== undefined) tpl.content = dto.content;
+  async deleteTemplate(id: number) {
+    const res = await this.tplRepo.delete({id});
 
-        return this.tplRepo.save(tpl);
-    }
+    if (!res.affected) throw new NotFoundException("Template not found");
 
-    async deleteTemplate(id: number) {
-        const res = await this.tplRepo.delete({id});
-
-        if (!res.affected) throw new NotFoundException('Template not found');
-
-        return {ok: true};
-    }
+    return {ok: true};
+  }
 }
