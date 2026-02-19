@@ -17,10 +17,9 @@ export class SubmissionsController {
         return this.submissionsService.create(dto);
     }
 
-    @ApiOperation({summary: 'List submissions (pagination + q filter)'})
     @Get()
-    findAll(@Query('page') page?: number, @Query('limit') limit?: number, @Query('q') q?: string) {
-        return this.submissionsService.findAll(page, limit, q);
+    findAll(@Query('page') _page?: number, @Query('limit') _limit?: number, @Query('q') q?: string) {
+        return this.submissionsService.findAll(q);
     }
 
     @ApiOperation({summary: 'Get submission by id'})

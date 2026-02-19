@@ -22,13 +22,13 @@ export class Submission extends BaseModel {
     task: Task;
 
     @Column({type: 'text', nullable: true})
-    content?: string;
+    content: string | null;
 
-    @Column({type: 'int', nullable: true})
-    mark?: number;
+    @Column({nullable: true})
+    mark: number | null;
 
     @Column({type: 'text', nullable: true})
-    feedback?: string;
+    feedback: string | null;
 
     @Column({
         type: 'enum',

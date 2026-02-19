@@ -41,7 +41,7 @@ export class SubmissionsService {
             qb.andWhere('LOWER(s.content) LIKE LOWER(:q)', {q: `%${q}%`});
         }
 
-        return qb.getMany(); // ✅ returns Submission[]
+        return qb.getMany();
     }
 
     async findOne(id: number) {
@@ -59,7 +59,7 @@ export class SubmissionsService {
         return sub;
     }
 
-    async updateOwned(id: number, dto: UpdateSubmissionDto, user: any) {
+    async updateOwned(id: number, dto: UpdateSubmissionDto, user?: any) {
         const sub = await this.findOne(id);
 
         if (user?.role === Roles.student && sub.studentId !== user.sub) {
@@ -74,9 +74,9 @@ export class SubmissionsService {
     async mark(id: number, dto: MarkSubmissionDto) {
         const sub = await this.findOne(id);
 
-        sub.mark = dto.mark ?? null;
-        sub.feedback = dto.feedback ?? null;
-        sub.status = dto.status;
+        if (dto.mark !== undefined) sub.mark = dto.mark;
+        if (dto.feedback !== undefined) sub.feedback = dto.feedback;
+        if (dto.status !== undefined) sub.status = dto.status;
 
         return this.subRepo.save(sub);
     }
