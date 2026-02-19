@@ -15,8 +15,8 @@ export class TaskTemplate extends BaseModel {
     @Column({length: 128})
     title: string;
 
-    @Column({type: 'varchar', length: 1024, nullable: true})
-    description?: string;
+    @Column({type: 'text', nullable: true})
+    description: string | null;
 
     @Column()
     content: string;
